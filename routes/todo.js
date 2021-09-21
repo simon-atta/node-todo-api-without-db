@@ -26,8 +26,7 @@ function postTodo(app) {
 			// 	return
 			// }
 
-			const dbResponse = todoController.create(req.body)
-			res.send(dbResponse)
+			todoController.create(req.body)
 
 		} catch (error) {
 			res.status(400)
@@ -39,8 +38,7 @@ function postTodo(app) {
 function putTodo(app) {
 	app.put(putRoute, async (req, res) => {
 		try {
-			const dbResponse = todoController.update(req.body)
-			res.send(dbResponse)
+			todoController.update(req.body)
 
 		} catch (error) {
 			res.status(400)
@@ -53,8 +51,8 @@ function deleteTodo(app) {
 	app.delete(deleteRoute, async (req, res) => {
 		try {
 			const id = req.params.id;
-			const dbResponse = todoController.remove(id)
-			res.send(dbResponse)
+			todoController.remove(id)
+
 
 		} catch (error) {
 			res.status(400)
