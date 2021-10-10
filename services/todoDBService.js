@@ -1,6 +1,6 @@
 import {data} from "../data/todoData.js"
 
-function getTodos() {
+function getAllTodo() {
     return new Promise((resolve, reject) => {
         setTimeout(resolve(data), 1000)
     })
@@ -11,22 +11,34 @@ function createToDo(entity) {
 }
 
 function updateToDo(entity) {
+    const oldEntity = data.find(function(e) {
+        return e.id === parseInt(entity.id)
+    });
 
-	let index = data.findIndex(function (o) {
-        return o.id === parseInt(entity.id)
-    })
+    let newEntity = oldEntity;
 
-	let oldEntity = data.pop(index);
+    newEntity.id = entity.id;
+    newEntity.name = entity.name;
+    newEntity.status = entity.status;
 
-    oldEntity.id = entity.id;
-    oldEntity.name = entity.name;
-    oldEntity.status = entity.status;
+    removeToDo(oldEntity.id)
+    data.push(newEntity)
 
-    data.push(oldEntity)
 }
 
+function findToDoById(id) {
+    let result = data.filter(o => {
+        return o.id === parseInt(id)
+    })
+
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve(result), 1000)
+    })
+}
+
+
 function removeToDo(id) {
-	let index = data.findIndex(function (o) {
+    let index = data.findIndex(function (o) {
         return o.id === parseInt(id)
     })
 
@@ -34,4 +46,4 @@ function removeToDo(id) {
     if (index !== -1) data.splice(index, 1)
 }
 
-export {getTodos, createToDo, removeToDo, updateToDo}
+export {getAllTodo, createToDo, findToDoById, removeToDo, updateToDo}

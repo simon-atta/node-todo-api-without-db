@@ -9,9 +9,17 @@ function create(entity) {
 	}
 }
 
-async function read() {
+async function getAllTodo() {
 	try {
-		return await todoService.getTodos()
+		return await todoService.getAllTodo()
+	} catch (error) {
+		log.error(error)
+	}
+}
+
+async function findTodoById(id) {
+	try {
+		return await todoService.findToDoById(id)
 	} catch (error) {
 		log.error(error)
 	}
@@ -33,4 +41,4 @@ function remove(id) {
 	}
 }
 
-export { create, read, update, remove }
+export { create, getAllTodo, findTodoById, update, remove }

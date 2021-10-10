@@ -1,15 +1,30 @@
 import * as todoController from "../controllers/todoController.js"
 
-const getRoute = "/todo"
+const getAllRoute = "/todo"
+const findByIdRoute = "/todo/:id"
 const postRoute = "/todo"
 const deleteRoute = "/todo/:id"
 const putRoute = "/todo"
 
-function getTodo(app) {
-	app.get(getRoute, async (req, res) => {
+function getAllTodo(app) {
+	app.get(getAllRoute, async (req, res) => {
 		try {
-			const dbResponse = await todoController.read()
+			const dbResponse = await todoController.getAllTodo()
 			res.send(dbResponse)
+		} catch (error) {
+			res.status(400)
+			res.send(error)
+		}
+	})
+}
+
+function findTodoById(app) {
+	app.get(findByIdRoute, async (req, res) => {
+		try {
+			const id = req.params.id;
+			const dbResponse = await todoController.findTodoById(id)
+			res.send(dbResponse)
+
 		} catch (error) {
 			res.status(400)
 			res.send(error)
@@ -20,13 +35,8 @@ function getTodo(app) {
 function postTodo(app) {
 	app.post(postRoute, async (req, res) => {
 		try {
-			// Validate request
-			// if (!req.body.id) {
-			// 	res.status(400).send({ message: "Content can not be empty!" })
-			// 	return
-			// }
-
 			todoController.create(req.body)
+			res.status(200).send({ message: "Entity created!" })
 
 		} catch (error) {
 			res.status(400)
@@ -39,7 +49,7 @@ function putTodo(app) {
 	app.put(putRoute, async (req, res) => {
 		try {
 			todoController.update(req.body)
-
+			res.status(200).send({ message: "Entity updated!" })
 		} catch (error) {
 			res.status(400)
 			res.send(error)
@@ -52,7 +62,7 @@ function deleteTodo(app) {
 		try {
 			const id = req.params.id;
 			todoController.remove(id)
-
+			res.status(204).send()
 
 		} catch (error) {
 			res.status(400)
@@ -63,4 +73,4 @@ function deleteTodo(app) {
 
 
 
-export default { getTodo, postTodo , deleteTodo, putTodo}
+export default { getAllTodo, postTodo , findTodoById, deleteTodo, putTodo}
