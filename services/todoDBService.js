@@ -11,7 +11,7 @@ function createToDo(entity) {
 }
 
 function updateToDo(entity) {
-    const oldEntity = data.find(function(e) {
+    const oldEntity = data.find(function (e) {
         return e.id === parseInt(entity.id)
     });
 
@@ -36,6 +36,16 @@ function findToDoById(id) {
     })
 }
 
+function findToDoByName(name) {
+    let result = data.filter(o => {
+        return o.name === name
+    })
+
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve(result), 1000)
+    })
+}
+
 
 function removeToDo(id) {
     let index = data.findIndex(function (o) {
@@ -46,4 +56,4 @@ function removeToDo(id) {
     if (index !== -1) data.splice(index, 1)
 }
 
-export {getAllTodo, createToDo, findToDoById, removeToDo, updateToDo}
+export {getAllTodo, createToDo, findToDoById, findToDoByName, removeToDo, updateToDo}
